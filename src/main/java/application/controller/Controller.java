@@ -61,6 +61,8 @@ public class Controller {
         initializeCorrelationPanel();
 
         view.addDisplayButtonListener(e -> onSignalDisplay());
+        view.addExportButtonListener(e -> onSignalExport());
+        view.addImportButtonListener(e -> onSignalImport());
     }
 
     private void initializeSamplingPanel() {
@@ -819,11 +821,48 @@ public class Controller {
         view.setSelection(model.getSignalsCount() - 1);
     }
 
-    private void onSignalDisplay() {
+    private ISignal getSelectedSignal() {
         int selectedIndex = view.getSelectedSignalIndex();
-        ISignal signal = model.getSignalFromList(selectedIndex);
+        return model.getSignalFromList(selectedIndex);
+    }
+
+    private void onSignalDisplay() {
+        ISignal signal = getSelectedSignal();
         int bins = signalPanel.getHistogramBins().getValue();
         Helper.openWindow(signal, bins);
     }
 
+    private void onSignalExport() {
+        ISignal signal = getSelectedSignal();
+        fileChooser = new JFileChooser();
+        int returnValue = fileChooser.showSaveDialog(view.getMainPanel());
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            String selectedFile = fileChooser.getSelectedFile().getPath();
+            try {
+                FileUtils.saveSignal(signal, selectedFile);
+                JOptionPane.showMessageDialog(view.getFrame(), "Zapisano.", "Komunikat", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                view.displayError("Nie można zapisać pliku " + selectedFile);
+            }
+        }
+    }
+
+    private void onSignalImport() {
+        fileChooser = new JFileChooser();
+        int returnValue = fileChooser.showOpenDialog(view.getMainPanel());
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            String selectedFile = fileChooser.getSelectedFile().getPath();
+            try {
+                GeneratedSignal signal = (GeneratedSignal) FileUtils.loadSignal(selectedFile);
+                signal.setName("Wczytany sygnał");
+                model.addSignalToList(signal);
+                view.addSignal("Wczytany sygnał");
+                signalPanel.getSignalType().setSelectedIndex(11);
+
+            } catch (IOException ex) {
+                String message = "Nie można wczytać pliku: " + selectedFile;
+                JOptionPane.showMessageDialog(view.getFrame(), message, "Błąd", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 }
