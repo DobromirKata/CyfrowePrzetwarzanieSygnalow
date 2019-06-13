@@ -1,0 +1,159 @@
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[T1]{polski}
+\usepackage[cp1250]{inputenc}
+\newcommand{\BibTeX}{{\sc Bib}\TeX} 
+\usepackage{graphicx}
+\usepackage{amsfonts}
+
+\usepackage[dvipsnames]{color}
+\usepackage{amsmath}
+\usepackage[section]{placeins}
+\usepackage{listings}
+\usepackage{xparse}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage{indentfirst}
+
+\setlength{\textheight}{21cm}
+
+\title{{\bf Zadanie nr 3 - Splot, filtracja i korelacja sygna³ów}\linebreak
+Cyfrowe Przetwarzanie Sygna³ów}
+\author{Konrad Jachimstal, 211807 \and Patryk Janicki, 211951}
+\date{26.05.2019}
+
+\begin{document}
+\clearpage\maketitle
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+\section{Cel zadania}
+Celem zadania jest zapoznanie siê z operacjami splotu, filtracji oraz korelacji sygna³ów.
+Dzia³anie programu mo¿emy podzieliæ na podpunkty z których ka¿dy odpowiada poszczególnej zak³adce
+w programie.
+\begin{itemize}
+ \item Filtracja
+ \item Korelacja
+\end{itemize}
+
+\section{Wstêp teoretyczny}
+\subsection{Zagadnienia}
+\subsubsection{Filtracja}
+Filtracj¹ nazywamy proces ograniczaj¹cy sygna³ w wybrany sposób. Istniej¹ dwa sposoby ograniczania sygna³u.
+\begin{description}
+ \item Dolnoprzepustowy - filtracja dolno przepustowa polega na odciêcu wartoœci sygna³u przekraczaj¹cych
+ dan¹ czêstotliwoœæ. Na przyk³ad je¿eli filtracja dolnoprzepustowa bêdzie ustawiona na $50Hz$ to wszystko
+ w zakresie od $0Hz$ do $50Hz$ zostanie zachowane, natomiast wszystko powy¿ej podanej czêstotliwoœci zostanie
+ odfiltrowane.
+ \item Górnoprzepustowy - filtracja górno przepustowa polega na odfiltrowaniu z sygna³u wartoœci, które
+ s¹ poni¿ej podanej wartoœci czêstotliwoœci.
+\end{description}
+
+\subsubsection{Korelacja}
+Korelacja sygna³ów pozwana na porównanie ze zob¹ dwóch sygna³ów. O korelacji pomiêdzy sygna³ami mówimy,
+kiedy wzrost pierwszego sygna³u wi¹¿e siê ze wzrostem sygna³u drugiego. Mówimy wówczas o korelacji silnej.
+Natomiast je¿eli podczas wzrostu sygna³u pierwszego obserwujemy spadek sygna³u drugiego to mówimy o
+korelacji ujemnej.
+
+\subsection{Obs³uga programu}
+Program z zadania pierwszego oraz drugiego zosta³ rozszerzony o funkjonalnoœci pozwalaj¹ce w wygodny sposób
+przeprowadziæ filtracjê oraz korelacjê sygna³u.
+\\Dodane zak³adki:
+\begin{itemize}
+ \item Filter
+ \item Corelation
+\end{itemize}
+Podczas operacji na sygna³ach mo¿emy wybraæ rodzaj filtracji, rodzaj wykorzystywanego okna oraz zakres
+filtracji.
+
+\begin{figure}
+ \centering
+ \includegraphics[width=10cm]{filter.JPG}
+ \vspace{-0.3cm}
+ \caption{Zak³adka s³u¿¹ca do filtrowania sygna³u.}
+ \label{sampling}
+\end{figure}
+
+\FloatBarrier
+\section{Eksperymenty i wyniki}
+Wykonane eksperymenty zosta³y podzielone na dwie czêœci: filtracja oraz korelacja sygna³ów.
+
+\subsection{Eksperyment nr 1 - Filtracja górnoprzepustowa}
+Eksperyment nr 1 polega³ na wygenerowaniu sygna³u po filtracji za pomoc¹
+filtru górnoprzepustowego z parametrem odciêcia równym $0,02$. Eksperyment przeprowadzono dla
+dwóch rodzajów okna.
+
+\subsubsection{Za³o¿enia}
+Zak³adanym wynikiem by³o otrzymanie odfiltrowanego sygna³u.
+
+\subsubsection{Rezultat}
+Zgodnie z za³o¿eniami otrzymano odfiltrowany sygna³.
+
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=10cm]{filterdown.JPG}
+ \vspace{-0.3cm}
+ \caption{Odfiltrowany sygna³ z oknem Hanninga.}
+\end{figure}
+
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=10cm]{filterdownrec.JPG}
+ \vspace{-0.3cm}
+ \caption{Odfiltrowany sygna³ z oknem prostok¹tnym.}
+\end{figure}
+\newpage
+\FloatBarrier
+\subsection{Eksperyment nr 2 - Filtracja dolnoprzepustowa}
+Eksperyment nr 2 polega³ na odfiltrowaniu sygna³u za pomoc¹ filtra dolnoprzepustowego z parametrem $0.06$.
+Eksperyment przeprowadzono dla dwóch rodzajów okna.
+\subsubsection{Za³o¿enia}
+Zak³adanym wynikiem by³o otrzymanie odfiltrowanego sygna³u.
+
+\subsubsection{Rezultat}
+Zgodnie z za³o¿eniami otrzymaliœmy odfiltrowany sygna³.
+
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=10cm]{filterup.JPG}
+ \vspace{-0.3cm}
+ \caption{Odfiltrowany sygna³ z oknem Hanninga.}
+\end{figure}
+
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=10cm]{filteruprec.JPG}
+ \vspace{-0.3cm}
+ \caption{Odfiltrowany sygna³ z oknem prostok¹tnym.}
+\end{figure}
+\newpage
+
+\FloatBarrier
+\subsection{Eksperyment nr 3 - Korelacja}
+
+
+\subsubsection{Za³o¿enia}
+Za³o¿eniem w tym eksperymencie by³o otrzymanie sygna³u bêd¹cego wynikiem korelacji dwóch sygna³ów.
+
+\subsubsection{Rezultat}
+Zgodnie z za³o¿eniami otrzymaliœmi poni¿ej przedstawiony sygna³.
+
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=14cm]{korelacja.JPG}
+ \vspace{-0.3cm}
+ \caption{Sygna³ otrzymany w procesie korelacji.}
+\end{figure}
+
+\section{Wnioski}
+W procesie filtracji sygna³ów dok³adnie wida¿ ró¿nicê pomiêdzy zostosowanym rodzajem filtracji.
+Na otrzymane ygna³y znaczny wp³yw ma rodzaj zastoowanego okna. Sygna³y, które podlegaj¹ operacjom
+powinny byæ tej samej d³ugoœci. Wynik otrzymany z procesu korelacji œwiadczy o podobieñstwie
+przedstawionych sygna³ów. Równie¿ i w tym zadaniu nale¿y nadmiedniæ, ¿e s¹ to jedynie symulacje
+prawdziwych sygna³ów. Z wykorzystaniem dzisiajszej technologii nie jesteœmy w stanie dok³adnie odwzorowaæ
+sygna³u wystêpuj¹cego w przyrodzie.
+
+\section{Za³¹czniki}
+Podczas opracowywania zagadnienia korzystaliœmy jedynie z instrukcji do³¹czonej do zadania.
+
+\end{document}
