@@ -282,4 +282,16 @@ public class Model {
     public void setPosition(Position position) {
         this.position = position;
     }
+
+    public ISignal getSignalFromList(int index) {
+        return signals.get(index);
+    }
+
+    public void addSignalToList(ISignal signal) {
+        signals.add(signal);
+    }
+
+    public int getSignalsCount() {
+        return signals.size();
+    }
 }

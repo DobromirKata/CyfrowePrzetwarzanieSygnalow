@@ -14,6 +14,7 @@ import signal_processing.helpers.Operations;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -94,6 +95,8 @@ public class View {
         chartPanel3 = new ChartPanel(null);
         chartPanel4 = new ChartPanel(null);
         chartPanel5 = new ChartPanel(null);
+
+        signals.addListSelectionListener(e -> onSignalSelect());
     }
 
     private void createMenu() {
@@ -314,4 +317,34 @@ public class View {
         listModel.addElement(signalIndex++ + ". " + name);
     }
 
+    public void addDisplayButtonListener(ActionListener listener) {
+        displayButton.addActionListener(listener);
+    }
+
+    public void addExportButtonListener(ActionListener listener) {
+        exportButton.addActionListener(listener);
+    }
+
+    public void addImportButtonListener(ActionListener listener) {
+        importButton.addActionListener(listener);
+    }
+
+    public int getSelectedSignalIndex() {
+        return signals.getSelectedIndex();
+    }
+
+    private void onSignalSelect() {
+        int[] indices = signals.getSelectedIndices();
+        if (indices.length == 1) {
+            displayButton.setEnabled(true);
+            exportButton.setEnabled(true);
+        } else {
+            displayButton.setEnabled(false);
+            exportButton.setEnabled(false);
+        }
+    }
+
+    public void setSelection(int index) {
+        signals.setSelectedIndex(index);
+    }
 }

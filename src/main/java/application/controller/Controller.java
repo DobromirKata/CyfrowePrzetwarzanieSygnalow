@@ -59,6 +59,8 @@ public class Controller {
         initializeReconstructionPanel();
         initializeFilterPanel();
         initializeCorrelationPanel();
+
+        view.addDisplayButtonListener(e -> onSignalDisplay());
     }
 
     private void initializeSamplingPanel() {
@@ -811,6 +813,15 @@ public class Controller {
     private void onRender() {
         ISignal signal = model.getSignal();
         view.addSignal(signal.getSignalName());
+        int bins = signalPanel.getHistogramBins().getValue();
+        Helper.openWindow(signal, bins);
+        model.addSignalToList(signal);
+        view.setSelection(model.getSignalsCount() - 1);
+    }
+
+    private void onSignalDisplay() {
+        int selectedIndex = view.getSelectedSignalIndex();
+        ISignal signal = model.getSignalFromList(selectedIndex);
         int bins = signalPanel.getHistogramBins().getValue();
         Helper.openWindow(signal, bins);
     }
