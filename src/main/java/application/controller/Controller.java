@@ -811,7 +811,8 @@ public class Controller {
     private void onRender() {
         ISignal signal = model.getSignal();
         view.addSignal(signal.getSignalName());
-        Helper.openWindow(signal);
+        int bins = signalPanel.getHistogramBins().getValue();
+        Helper.openWindow(signal, bins);
     }
 
 }
