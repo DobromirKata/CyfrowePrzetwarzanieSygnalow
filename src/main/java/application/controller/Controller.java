@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.Helper;
 import application.model.Model;
 import application.view.*;
 import org.apache.commons.lang3.StringUtils;
@@ -808,7 +809,9 @@ public class Controller {
     }
 
     private void onRender() {
-        view.addSignal(model.getSignal().getSignalName());
+        ISignal signal = model.getSignal();
+        view.addSignal(signal.getSignalName());
+        Helper.openWindow(signal);
     }
 
 }

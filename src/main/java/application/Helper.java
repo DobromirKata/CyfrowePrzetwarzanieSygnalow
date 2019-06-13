@@ -12,10 +12,14 @@ public class Helper {
     private static List<JFrame> windows = new ArrayList<>();
 
     public static void openWindow(ISignal signal) {
-        SignalWindow signalWindow = new SignalWindow();
+        SignalWindow signalWindow = new SignalWindow(signal);
         JFrame frame = new JFrame(signal.getSignalName());
+
+        frame.add(signalWindow.getMainPanel());
         windows.add(frame);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 600);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
