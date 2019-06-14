@@ -95,10 +95,6 @@ public class Controller {
         JTabbedPane tabbedPane = view.getTabbedPane();
         tabbedPane.addTab("Rekonstrukcja", reconstructionPanel.getMainPanel());
         reconstructionPanel.addReconstructionFrequencyListener(e -> onReconstructionFrequencyChange(e));
-        reconstructionPanel.addReconstructionSignalListener(e -> onReconstructionSignalChange(e));
-        reconstructionPanel.addSetAsSignal1ButtonListener(e -> onSetReconstructionSignalAsSignal());
-        reconstructionPanel.addExportButtonListener(e -> onExportButtonInReconstruction());
-        reconstructionPanel.addPreviewButtonListener(e -> onPreviewButtonInReconstruction());
         reconstructionPanel.addRadioButtonListener(e -> onReconstructionTypeChange(e));
     }
 
