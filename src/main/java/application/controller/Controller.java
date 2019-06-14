@@ -74,11 +74,6 @@ public class Controller {
         JTabbedPane tabbedPane = view.getTabbedPane();
         tabbedPane.addTab("Próbkowanie", samplingPanel.getMainPanel());
         samplingPanel.addSamplingFrequencyListener(e -> onSamplingFrequencyChange(e));
-        samplingPanel.addSamplingSignalListener(e -> onSamplingSignalChange(e));
-        samplingPanel.addSetAsSignal1ButtonListener(e -> onSetSamplingSignalAsSignal(0));
-        samplingPanel.addSetAsSignal2ButtonListener(e -> onSetSamplingSignalAsSignal(1));
-        samplingPanel.addExportButtonListener(e -> onExportButtonInSampling());
-        samplingPanel.addPreviewButtonListener(e -> onPreviewButtonInSampling());
     }
 
     private void initializeQuantizationPanel() {
@@ -871,6 +866,7 @@ public class Controller {
         JList list = (JList) event.getSource();
         int[] indices = list.getSelectedIndices();
         operationsPanel.setButtonEnabled(indices.length == 2);
+        samplingPanel.setButtonEnabled(indices.length == 1);
     }
 
     private void onSignalsCalc() {
