@@ -20,13 +20,10 @@ public class QuantizationPanel {
     private JLabel noSignal;
     private JComboBox samplingSignal;
     private JSpinner quantizationLevels;
+    private JButton quantizeSignal;
     private ChartPanel chartPanel;
 
     public QuantizationPanel() {
-        DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
-        comboBoxModel.addElement("Signal 1");
-        comboBoxModel.addElement("Signal 2");
-        samplingSignal.setModel(comboBoxModel);
         chartPanel = new ChartPanel(null);
         quantizationLevels.setModel(new SpinnerNumberModel(2, 1, Integer.MAX_VALUE, 1));
     }
@@ -37,26 +34,6 @@ public class QuantizationPanel {
 
     public void addQuantizationLevelsListener(ChangeListener listener) {
         quantizationLevels.addChangeListener(listener);
-    }
-
-    public void addQuantizationSignalListener(ActionListener listener) {
-        samplingSignal.addActionListener(listener);
-    }
-
-    public void addSetAsSignal1ButtonListener(ActionListener listener) {
-        setAsSignal1Button.addActionListener(listener);
-    }
-
-    public void addSetAsSignal2ButtonListener(ActionListener listener) {
-        setAsSignal2Button.addActionListener(listener);
-    }
-
-    public void addExportButtonListener(ActionListener listener) {
-        exportButton.addActionListener(listener);
-    }
-
-    public void addPreviewButtonListener(ActionListener listener) {
-        previewButton.addActionListener(listener);
     }
 
     public void displaySignal(JFreeChart chart) {
@@ -91,5 +68,13 @@ public class QuantizationPanel {
     public void updateButtons(int selectedSignal) {
         setAsSignal1Button.setEnabled(selectedSignal != 0);
         setAsSignal2Button.setEnabled(selectedSignal != 1);
+    }
+
+    public void addQuantizeSignalButtonListener(ActionListener listener) {
+        quantizeSignal.addActionListener(listener);
+    }
+
+    public void setButtonEnabled(boolean state) {
+        quantizeSignal.setEnabled(state);
     }
 }

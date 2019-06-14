@@ -79,7 +79,7 @@
             </constraints>
             <properties>
               <enabled value="false"/>
-              <text value="Próbkowanie"/>
+              <text value="Rozpocznij próbkowanie"/>
             </properties>
           </component>
         </children>

@@ -73,6 +73,7 @@ public class Controller {
 
         operationsPanel.addCalcButtonListener(e -> onSignalsCalc());
         samplingPanel.addSamplingButtonListener(e -> onSampleSignal());
+        quantizationPanel.addQuantizeSignalButtonListener(e -> onQuantizeSignal());
     }
 
     private void initializeSamplingPanel() {
@@ -87,10 +88,6 @@ public class Controller {
         JTabbedPane tabbedPane = view.getTabbedPane();
         tabbedPane.addTab("Kwantyzacja", quantizationPanel.getMainPanel());
         quantizationPanel.addQuantizationLevelsListener(e -> onQuantizationLevelsChange(e));
-        quantizationPanel.addQuantizationSignalListener(e -> onQuantizationSignalChange(e));
-        quantizationPanel.addSetAsSignal1ButtonListener(e -> onSetQuantizationSignalAsSignal());
-        quantizationPanel.addExportButtonListener(e -> onExportButtonInQuantization());
-        quantizationPanel.addPreviewButtonListener(e -> onPreviewButtonInQuantization());
     }
 
     private void initializeReconstructionPanel() {
@@ -833,6 +830,7 @@ public class Controller {
         int[] indices = list.getSelectedIndices();
         operationsPanel.setButtonEnabled(indices.length == 2);
         samplingPanel.setButtonEnabled(indices.length == 1);
+        quantizationPanel.setButtonEnabled(indices.length == 1);
     }
 
     private void onSignalsCalc() {
@@ -884,6 +882,42 @@ public class Controller {
 
         plot.setRenderer(renderer);
 
-        Helper.openSimpleWindow(MessageFormat.format("Próbkowanie - {0}", signal.getSignalName()), chart);
+        int index = view.getSelectedSignalIndex() + 1;
+        String message = MessageFormat.format("Próbkowanie ({2}) - {0} [{1}]", signal.getSignalName(), index, freq);
+        Helper.openSimpleWindow(message, chart);
+
+        view.addSignal(message);
+        model.addSignalToList(generatedSignal);
+    }
+
+    private void onQuantizeSignal() {
+        ISignal signal = getSelectedSignal();
+        int levels = model.getQuantizationLevels();
+        GeneratedSignal generatedSignal = (GeneratedSignal) Operations.quantization(signal, levels);
+
+        JFreeChart chart = Operations.getChart(signal, generatedSignal);
+
+        XYPlot plot = (XYPlot) chart.getPlot();
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+
+        renderer.setSeriesLinesVisible(0, true);
+        renderer.setSeriesShapesVisible(0, false);
+        renderer.setSeriesStroke(0, new BasicStroke(1));
+        renderer.setSeriesPaint(0, Color.gray);
+        renderer.setSeriesLinesVisible(1, true);
+        renderer.setSeriesShapesVisible(1, false);
+        renderer.setSeriesStroke(1, new BasicStroke(3));
+        renderer.setSeriesPaint(1, new Color(207,91,75));
+
+        plot.setRenderer(renderer);
+
+
+
+        int index = view.getSelectedSignalIndex() + 1;
+        String message = MessageFormat.format("Kwantyzacja ({2}) - {0} [{1}]", signal.getSignalName(), index, levels);
+        Helper.openSimpleWindow(message, chart);
+
+        view.addSignal(message);
+        model.addSignalToList(generatedSignal);
     }
 }
