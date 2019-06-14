@@ -214,6 +214,12 @@ public class Controller {
             GeneratedSignal correlated = correlation.getCorrelatedSignal();
             correlated.setName("Korelacja sygnałów");
 
+            JFreeChart chart1 = Helper.defaultChart(signal1);
+            JFreeChart chart2 = Helper.defaultChart(signal2);
+            JFreeChart chart3 = Helper.defaultChart(correlated);
+
+            Helper.openCorrelationWindow("Korelacja sygnałów", chart1, chart2, chart3);
+
 //            Thread thread = new Thread(new CorrelationThread());
 //            thread.start();
 

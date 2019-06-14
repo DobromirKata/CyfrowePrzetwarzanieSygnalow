@@ -1,5 +1,6 @@
 package application;
 
+import application.view.CorrelationWindow;
 import application.view.ReconstructionWindow;
 import application.view.SignalWindow;
 import application.view.SimpleWindow;
@@ -60,6 +61,18 @@ public class Helper {
         windows.add(frame);
 
         frame.setSize(800, 400);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public static void openCorrelationWindow(String title, JFreeChart chart1, JFreeChart chart2, JFreeChart chart3) {
+        CorrelationWindow correlationWindow = new CorrelationWindow(chart1, chart2, chart3);
+
+        JFrame frame = new JFrame(title);
+        frame.add(correlationWindow.getMainPanel());
+        windows.add(frame);
+
+        frame.setSize(800, 700);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
