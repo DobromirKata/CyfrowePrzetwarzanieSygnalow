@@ -2,7 +2,6 @@ package application;
 
 import application.view.SignalWindow;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.statistics.HistogramDataset;
@@ -10,6 +9,7 @@ import org.jfree.data.statistics.HistogramType;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import signal_processing.ISignal;
+import signal_processing.helpers.Statistics;
 
 import javax.swing.*;
 import java.util.Collections;
@@ -24,13 +24,14 @@ public class Helper {
         JFreeChart signalChart = Helper.defaultChart(signal);
         HistogramDataset histogramDataset = getHistogramDataset(signal, bins);
         JFreeChart histogram = Helper.histogram(histogramDataset);
-        SignalWindow signalWindow = new SignalWindow(signalChart, histogram);
+        Statistics stats = new Statistics(signal);
+        SignalWindow signalWindow = new SignalWindow(signalChart, histogram, stats);
         JFrame frame = new JFrame(signal.getSignalName());
 
         frame.add(signalWindow.getMainPanel());
         windows.add(frame);
 
-        frame.setSize(800, 600);
+        frame.setSize(800, 700);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

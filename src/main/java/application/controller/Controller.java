@@ -640,12 +640,12 @@ public class Controller {
             int[] indices = view.getSelectedSignalIndices();
             view.enableOperationsButtons(indices.length == 2);
         }
-
-        signalPanel.getInfoAverage().setText(df.format(stats.getAverage()));
-        signalPanel.getInfoAbsoluteAverage().setText(df.format(stats.getAbsoluteMean()));
-        signalPanel.getInfoAveragePower().setText(df.format(stats.getAveragePower()));
-        signalPanel.getInfoVariance().setText(df.format(stats.getVariance()));
-        signalPanel.getInfoRootMeanSquare().setText(df.format(stats.getEffectiveValue()));
+//
+//        signalPanel.getInfoAverage().setText(df.format(stats.getAverage()));
+//        signalPanel.getInfoAbsoluteAverage().setText(df.format(stats.getAbsoluteMean()));
+//        signalPanel.getInfoAveragePower().setText(df.format(stats.getAveragePower()));
+//        signalPanel.getInfoVariance().setText(df.format(stats.getVariance()));
+//        signalPanel.getInfoRootMeanSquare().setText(df.format(stats.getEffectiveValue()));
     }
 
     private void onHistogramChange() {
