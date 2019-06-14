@@ -1,6 +1,7 @@
 package application;
 
 import application.view.SignalWindow;
+import application.view.SimpleWindow;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -32,6 +33,18 @@ public class Helper {
         windows.add(frame);
 
         frame.setSize(800, 700);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public static void openSimpleWindow(String title, JFreeChart chart) {
+        SimpleWindow simpleWindow = new SimpleWindow(chart);
+
+        JFrame frame = new JFrame(title);
+        frame.add(simpleWindow.getMainPanel());
+        windows.add(frame);
+
+        frame.setSize(800, 400);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
