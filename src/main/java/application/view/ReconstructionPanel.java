@@ -91,4 +91,12 @@ public class ReconstructionPanel {
         reconstructionStats.setModel(tableModel);
         tableModel.fireTableDataChanged();
     }
+
+    public void setEnabled(boolean state) {
+        reconstructionButton.setEnabled(state);
+    }
+
+    public void addReconstructionButtonListener(ActionListener listener) {
+        reconstructionButton.addActionListener(listener);
+    }
 }

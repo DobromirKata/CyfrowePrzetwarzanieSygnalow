@@ -1,5 +1,6 @@
 package application;
 
+import application.view.ReconstructionWindow;
 import application.view.SignalWindow;
 import application.view.SimpleWindow;
 import org.jfree.chart.ChartFactory;
@@ -43,6 +44,19 @@ public class Helper {
 
         JFrame frame = new JFrame(title);
         frame.add(simpleWindow.getMainPanel());
+        windows.add(frame);
+
+        frame.setSize(800, 400);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public static void openReconstructionWindow(String title, JFreeChart chart, Statistics stats) {
+
+        ReconstructionWindow reconstructionWindow = new ReconstructionWindow(chart, stats);
+
+        JFrame frame = new JFrame(title);
+        frame.add(reconstructionWindow.getMainPanel());
         windows.add(frame);
 
         frame.setSize(800, 400);
@@ -99,4 +113,6 @@ public class Helper {
         String[] operations = new String[] { "+", "-", "*", "/" };
         return operations[operation];
     }
+
+
 }

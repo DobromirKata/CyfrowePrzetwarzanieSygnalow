@@ -7,12 +7,14 @@ import signal_processing.helpers.Statistics;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 public class ReconstructionWindow {
     private JPanel signalPanel;
     private JTable statsTable;
+    private JPanel mainPanel;
 
     private ChartPanel signalChartPanel = new ChartPanel(null);
     private DefaultTableModel tableModel;
@@ -28,11 +30,11 @@ public class ReconstructionWindow {
         tableModel.addColumn("Name");
         tableModel.addColumn("Value");
 
-        tableModel.addRow(new Object[] { "Średnia wartość", df.format(stats.getAverage()) });
-        tableModel.addRow(new Object[] { "Średnia wartość absolutna", df.format(stats.getAbsoluteMean()) });
-        tableModel.addRow(new Object[] { "Średnia moc", df.format(stats.getAveragePower()) });
-        tableModel.addRow(new Object[] { "Wariancja", df.format(stats.getVariance()) });
-        tableModel.addRow(new Object[] { "Średnia kwadratowa", df.format(stats.getEffectiveValue()) });
+        tableModel.addRow(new Object[] { "Błąd średniokwadratowy", df.format(stats.MSE()) });
+        tableModel.addRow(new Object[] { "Stosunek sygnał - szum", df.format(stats.SNR()) });
+        tableModel.addRow(new Object[] { "Szczytowy stosunek sygnał - szum", df.format(stats.PSNR()) });
+        tableModel.addRow(new Object[] { "Maksymalna różnica", df.format(stats.MD()) });
+        tableModel.addRow(new Object[] { "Efektywna liczba bitów", df.format(stats.ENOB()) });
 
         statsTable.setModel(tableModel);
     }
@@ -42,5 +44,9 @@ public class ReconstructionWindow {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator('.');
         df.setDecimalFormatSymbols(symbols);
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 }

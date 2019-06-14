@@ -74,6 +74,7 @@ public class Controller {
         operationsPanel.addCalcButtonListener(e -> onSignalsCalc());
         samplingPanel.addSamplingButtonListener(e -> onSampleSignal());
         quantizationPanel.addQuantizeSignalButtonListener(e -> onQuantizeSignal());
+        reconstructionPanel.addReconstructionButtonListener(e -> onReconstructSignal());
     }
 
     private void initializeSamplingPanel() {
@@ -233,11 +234,8 @@ public class Controller {
             default:
                 model.setReconstructionType(0);
                 break;
-            case "Interpolation":
+            case "Funkcja sinc":
                 model.setReconstructionType(1);
-                break;
-            case "Sinc":
-                model.setReconstructionType(2);
                 break;
         }
     }
@@ -827,6 +825,7 @@ public class Controller {
         operationsPanel.setButtonEnabled(indices.length == 2);
         samplingPanel.setButtonEnabled(indices.length == 1);
         quantizationPanel.setButtonEnabled(indices.length == 1);
+        reconstructionPanel.setEnabled(indices.length == 1);
     }
 
     private void onSignalsCalc() {
@@ -912,6 +911,44 @@ public class Controller {
         int index = view.getSelectedSignalIndex() + 1;
         String message = MessageFormat.format("Kwantyzacja ({2}) - {0} [{1}]", signal.getSignalName(), index, levels);
         Helper.openSimpleWindow(message, chart);
+
+        view.addSignal(message);
+        model.addSignalToList(generatedSignal);
+    }
+
+    private void onReconstructSignal() {
+        ISignal signal = getSelectedSignal();
+        double freq = model.getReconstructionFrequency();
+        int type = model.getReconstructionType();
+
+        GeneratedSignal generatedSignal;
+
+        if (type == 0) {
+            generatedSignal = (GeneratedSignal) Operations.zeroExploration(signal, freq);
+        } else {
+            generatedSignal = (GeneratedSignal) Operations.reconstruction(signal, freq);
+        }
+
+        JFreeChart chart = Operations.getChart(signal, generatedSignal);
+
+        XYPlot plot = (XYPlot) chart.getPlot();
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+
+        renderer.setSeriesLinesVisible(0, true);
+        renderer.setSeriesShapesVisible(0, false);
+        renderer.setSeriesStroke(0, new BasicStroke(1));
+        renderer.setSeriesPaint(0, Color.gray);
+        renderer.setSeriesLinesVisible(1, true);
+        renderer.setSeriesShapesVisible(1, false);
+        renderer.setSeriesStroke(1, new BasicStroke(2));
+        renderer.setSeriesPaint(1, new Color(0,152,255));
+
+        plot.setRenderer(renderer);
+
+        int index = view.getSelectedSignalIndex() + 1;
+        String message = MessageFormat.format("Rekonstrukcja ({2}) - {0} [{1}]", signal.getSignalName(), index, freq);
+        Statistics stats = new Statistics(signal, generatedSignal);
+        Helper.openReconstructionWindow(message, chart, stats);
 
         view.addSignal(message);
         model.addSignalToList(generatedSignal);
