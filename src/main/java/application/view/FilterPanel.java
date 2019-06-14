@@ -24,14 +24,11 @@ public class FilterPanel {
     private JTable reconstructionStats;
     private JComboBox filterType;
     private JComboBox windowType;
+    private JButton startFilterSignal;
     private ChartPanel chartPanel;
     private DefaultTableModel tableModel;
 
     public FilterPanel() {
-        DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
-        comboBoxModel.addElement("Signal 1");
-        comboBoxModel.addElement("Signal 2");
-        filterSignal.setModel(comboBoxModel);
         chartPanel = new ChartPanel(null);
         cutoffFrequency.setModel(new SpinnerNumberModel(0.05, 0.001, 1.0, 0.01));
         tableModel = new DefaultTableModel();
@@ -39,13 +36,13 @@ public class FilterPanel {
         tableModel.addColumn("Value");
 
         DefaultComboBoxModel filterTypes = new DefaultComboBoxModel();
-        filterTypes.addElement("Low pass");
-        filterTypes.addElement("High pass");
+        filterTypes.addElement("Filtr dolnoprzepustowy");
+        filterTypes.addElement("Filtr górnoprzepustowy");
         filterType.setModel(filterTypes);
 
         DefaultComboBoxModel windowTypes = new DefaultComboBoxModel();
-        windowTypes.addElement("Rectangular window");
-        windowTypes.addElement("Hanning window");
+        windowTypes.addElement("Okno prostokątne");
+        windowTypes.addElement("Okno Hanninga");
         windowType.setModel(windowTypes);
     }
 
@@ -55,26 +52,6 @@ public class FilterPanel {
 
     public void addCutoffFrequencyListener(ChangeListener listener) {
         cutoffFrequency.addChangeListener(listener);
-    }
-
-    public void addFilterSignalListener(ActionListener listener) {
-        filterSignal.addActionListener(listener);
-    }
-
-    public void addSetAsSignal1ButtonListener(ActionListener listener) {
-        setAsSignal1Button.addActionListener(listener);
-    }
-
-    public void addSetAsSignal2ButtonListener(ActionListener listener) {
-        setAsSignal2Button.addActionListener(listener);
-    }
-
-    public void addExportButtonListener(ActionListener listener) {
-        exportButton.addActionListener(listener);
-    }
-
-    public void addPreviewButtonListener(ActionListener listener) {
-        previewButton.addActionListener(listener);
     }
 
     public void addFilterTypeListener(ActionListener listener) {
@@ -125,5 +102,13 @@ public class FilterPanel {
         }
         reconstructionStats.setModel(tableModel);
         tableModel.fireTableDataChanged();
+    }
+
+    public void setEnabled(boolean state) {
+        startFilterSignal.setEnabled(state);
+    }
+
+    public void addStartFilterButtonListener(ActionListener listener) {
+        startFilterSignal.addActionListener(listener);
     }
 }

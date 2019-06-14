@@ -16,7 +16,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="b6389" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="b6389" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -24,39 +24,21 @@
             <properties/>
             <border type="none"/>
             <children>
-              <grid id="6245c" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="6245c" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="10" bottom="4" right="10"/>
                 <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="5e8d6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                    <border type="etched" title="Filter signal"/>
-                    <children>
-                      <component id="fa128" class="javax.swing.JComboBox" binding="filterSignal">
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <model/>
-                        </properties>
-                      </component>
-                    </children>
-                  </grid>
                   <grid id="7c7c1" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="etched" title="Cutoff frequency"/>
+                    <border type="etched" title="Częstotliwość odcięcia"/>
                     <children>
                       <component id="df5b6" class="javax.swing.JSpinner" binding="cutoffFrequency">
                         <constraints>
@@ -69,10 +51,10 @@
                   <grid id="5d16f" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="etched" title="Filter type"/>
+                    <border type="etched" title="Typ"/>
                     <children>
                       <component id="6fb46" class="javax.swing.JComboBox" binding="filterType">
                         <constraints>
@@ -85,10 +67,10 @@
                   <grid id="aed0" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="etched" title="Window type"/>
+                    <border type="etched" title="Rodzaj okna"/>
                     <children>
                       <component id="4dd2a" class="javax.swing.JComboBox" binding="windowType">
                         <constraints>
@@ -103,12 +85,12 @@
               <grid id="a0048" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="10" bottom="10" right="10"/>
                 <constraints>
-                  <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="3188e" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="3188e" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -116,73 +98,20 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="680b2" class="javax.swing.JButton" binding="setAsSignal1Button" default-binding="true">
+                      <component id="f7ccf" class="javax.swing.JButton" binding="startFilterSignal">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <enabled value="false"/>
-                          <text value="Set as Signal 1"/>
-                        </properties>
-                      </component>
-                      <component id="7948f" class="javax.swing.JButton" binding="setAsSignal2Button">
-                        <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <enabled value="true"/>
-                          <text value="Set as Signal 2"/>
-                        </properties>
-                      </component>
-                      <component id="b1105" class="javax.swing.JButton" binding="exportButton" default-binding="true">
-                        <constraints>
-                          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <enabled value="true"/>
-                          <text value="Export"/>
-                        </properties>
-                      </component>
-                      <component id="8eec1" class="javax.swing.JButton" binding="previewButton" default-binding="true">
-                        <constraints>
-                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <enabled value="true"/>
-                          <text value="Preview"/>
+                          <text value="Rozpocznij filtrowanie"/>
                         </properties>
                       </component>
                     </children>
                   </grid>
                 </children>
               </grid>
-              <grid id="9a39a" binding="signalPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="1" use-parent-layout="false">
-                    <minimum-size width="422" height="327"/>
-                    <preferred-size width="422" height="327"/>
-                    <maximum-size width="422" height="327"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <background color="-923918"/>
-                </properties>
-                <border type="line">
-                  <color color="-6593376"/>
-                </border>
-                <children>
-                  <component id="5ded9" class="javax.swing.JLabel" binding="noSignal">
-                    <constraints border-constraint="Center"/>
-                    <properties>
-                      <font name="Roboto Light" size="15"/>
-                      <foreground color="-3423540"/>
-                      <horizontalAlignment value="0"/>
-                      <text value="NO SIGNAL"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="7bb49" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="79919" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="1" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -191,33 +120,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <background color="-6593376"/>
-                  <foreground color="-1"/>
-                </properties>
-                <border type="none"/>
-                <children>
-                  <component id="458d1" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Roboto" size="16"/>
-                      <foreground color="-1"/>
-                      <text value="Filter"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="79919" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="1" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="-1" height="40"/>
-                    <maximum-size width="-1" height="40"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <background color="-6593376"/>
+                  <background color="-1"/>
                   <foreground color="-1"/>
                 </properties>
                 <border type="none"/>
@@ -227,13 +130,18 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <font name="Roboto" size="16"/>
-                      <foreground color="-1"/>
-                      <text value="Parameters"/>
+                      <font name="Arial" size="16"/>
+                      <foreground color="-16777216"/>
+                      <text value="Filtrowanie"/>
                     </properties>
                   </component>
                 </children>
               </grid>
+              <vspacer id="a6361">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
             </children>
           </grid>
         </children>

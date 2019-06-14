@@ -103,13 +103,10 @@ public class Controller {
         filterPanel = new FilterPanel();
         JTabbedPane tabbedPane = view.getTabbedPane();
         tabbedPane.addTab("Filtrowanie", filterPanel.getMainPanel());
-        filterPanel.addFilterSignalListener(e -> onFilterSignalChange(e));
         filterPanel.addFilterTypeListener(e -> onFilterTypeChange(e));
         filterPanel.addWindowTypeListener(e -> onWindowTypeChange(e));
         filterPanel.addCutoffFrequencyListener(e -> onCutoffFrequencyChange(e));
-        filterPanel.addPreviewButtonListener(e -> onPreviewButtonInFilter());
-        filterPanel.addSetAsSignal1ButtonListener(e -> onSetFilterSignalAsSignal());
-        filterPanel.addExportButtonListener(e -> onExportButtonInFilter());
+        filterPanel.addStartFilterButtonListener(e -> onFilterSignal());
     }
 
     private void initializeCorrelationPanel() {
@@ -126,105 +123,14 @@ public class Controller {
         model.setSamplingFrequency((double)source.getValue());
     }
 
-    private void onPreviewButtonInSampling() {
-        try {
-            sampleSignal();
-            ISignal signal = model.getSignal();
-            JFreeChart chart = Operations.getChart(signal, model.getSampledSignal());
-            samplingPanel.displaySignal(chart);
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
-    }
-
-    private void sampleSignal() throws Exception {
-            int index = model.getSamplingSignal();
-            ISignal signal = model.getSignal();
-            if (signal == null || signal.getValuesX().size() == 0 || signal.getValuesY().size() == 0) {
-                throw new Exception("Signal not found.");
-            }
-            ISignal sampled = Operations.sampling(signal, model.getSamplingFrequency());
-            model.setSampledSignal(sampled);
-            samplingPanel.hideNoSignal();
-    }
-
     private void onQuantizationLevelsChange(ChangeEvent event) {
         JSpinner source = (JSpinner) event.getSource();
         model.setQuantizationLevels((int)source.getValue());
     }
 
-    private void onQuantizationSignalChange(ActionEvent event) {
-        JComboBox source = (JComboBox) event.getSource();
-        model.setQuantizationSignal(source.getSelectedIndex());
-        quantizationPanel.updateButtons(source.getSelectedIndex());
-    }
-
-    private void onSetQuantizationSignalAsSignal() {
-        try {
-            quantizeSignal();
-            ISignal signal = model.getQuantizedSignal();
-            model.setSignal(signal);
-            onSignalRender();
-            onPreviewButtonInSampling();
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
-    }
-
-    private void quantizeSignal() throws Exception {
-        int index = model.getQuantizationSignal();
-        ISignal signal = model.getSignal();
-        if (signal == null || signal.getValuesX().size() == 0 || signal.getValuesY().size() == 0) {
-            throw new Exception("Signal not found.");
-        }
-        ISignal sampled = Operations.quantization(signal, model.getQuantizationLevels());
-        model.setQuantizedSignal(sampled);
-        quantizationPanel.hideNoSignal();
-    }
-
-    private void onPreviewButtonInQuantization() {
-        try {
-            quantizeSignal();
-            ISignal signal = model.getSignal();
-            JFreeChart chart = Operations.getChart(signal, model.getQuantizedSignal());
-            quantizationPanel.displaySignal(chart);
-            quantizationPanel.hideNoSignal();
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
-    }
-
-    private void onExportButtonInQuantization() {
-        try {
-            quantizeSignal();
-            ISignal signal = model.getQuantizedSignal();
-
-            fileChooser = new JFileChooser();
-            int returnValue = fileChooser.showSaveDialog(view.getMainPanel());
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                String selectedFile = fileChooser.getSelectedFile().getPath();
-                try {
-                    FileUtils.saveSignal(signal, selectedFile);
-                    JOptionPane.showMessageDialog(view.getFrame(), "Saved.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                } catch (IOException ex) {
-                    view.displayError("Could not save file: " + selectedFile);
-                }
-            }
-
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
-    }
-
     private void onReconstructionFrequencyChange(ChangeEvent event) {
         JSpinner source = (JSpinner) event.getSource();
         model.setReconstructionFrequency((double)source.getValue());
-    }
-
-    private void onReconstructionSignalChange(ActionEvent event) {
-        JComboBox source = (JComboBox) event.getSource();
-        model.setReconstructionSignal(source.getSelectedIndex());
-        reconstructionPanel.updateButtons(source.getSelectedIndex());
     }
 
     private void onReconstructionTypeChange(ActionEvent event) {
@@ -263,70 +169,6 @@ public class Controller {
         model.setOriginalReconstructionSignal(signal.copy());
         reconstructionPanel.hideNoSignal();
         updateReconstructionStats();
-    }
-
-    private void onSetReconstructionSignalAsSignal() {
-        try {
-            reconstructSignal();
-            ISignal signal = model.getReconstructedSignal();
-            model.setSignal(signal);
-            onSignalRender();
-            onPreviewButtonInReconstruction();
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
-    }
-
-    private void onPreviewButtonInReconstruction() {
-        try {
-            reconstructSignal();
-            ISignal signal = model.getSignal();
-            JFreeChart chart = Operations.getChart(signal, model.getReconstructedSignal());
-            reconstructionPanel.displaySignal(chart);
-            reconstructionPanel.hideNoSignal();
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
-    }
-
-    private void onExportButtonInReconstruction() {
-        try {
-            reconstructSignal();
-            ISignal signal = model.getReconstructedSignal();
-
-            fileChooser = new JFileChooser();
-            int returnValue = fileChooser.showSaveDialog(view.getMainPanel());
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                String selectedFile = fileChooser.getSelectedFile().getPath();
-                try {
-                    FileUtils.saveSignal(signal, selectedFile);
-                    JOptionPane.showMessageDialog(view.getFrame(), "Saved.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                } catch (IOException ex) {
-                    view.displayError("Could not save file: " + selectedFile);
-                }
-            }
-
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
-    }
-
-    private void onSetFilterSignalAsSignal() {
-        try {
-            filterSignal();
-            ISignal signal = model.getFilteredSignal();
-            model.setSignal(signal);
-            onSignalRender();
-            onPreviewButtonInFilter();
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
-    }
-
-    private void onFilterSignalChange(ActionEvent event) {
-        JComboBox source = (JComboBox) event.getSource();
-        model.setFilterSignal(source.getSelectedIndex());
-        filterPanel.updateButtons(model.getFilterSignal());
     }
 
     private void onFilterTypeChange(ActionEvent event) {
@@ -384,27 +226,6 @@ public class Controller {
         }
     }
 
-    private void onExportButtonInFilter() {
-        try {
-            filterSignal();
-            ISignal signal = model.getFilteredSignal();
-
-            fileChooser = new JFileChooser();
-            int returnValue = fileChooser.showSaveDialog(view.getMainPanel());
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                String selectedFile = fileChooser.getSelectedFile().getPath();
-                try {
-                    FileUtils.saveSignal(signal, selectedFile);
-                    JOptionPane.showMessageDialog(view.getFrame(), "Saved.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                } catch (IOException ex) {
-                    view.displayError("Could not save file: " + selectedFile);
-                }
-            }
-
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
-    }
 
     private void updateReconstructionStats() {
         Statistics statistics = new Statistics(model.getOriginalReconstructionSignal(), model.getReconstructedSignal());
@@ -532,12 +353,6 @@ public class Controller {
             setSignal(selectedSignal);
             updateSignalControls();
         }
-    }
-
-    public void onSetAsSignal() {
-        generateSignal();
-        model.setSignal(model.getGeneratedSignal());
-        onSignalRender();
     }
 
     private void updateSignalControls() {
@@ -826,6 +641,7 @@ public class Controller {
         samplingPanel.setButtonEnabled(indices.length == 1);
         quantizationPanel.setButtonEnabled(indices.length == 1);
         reconstructionPanel.setEnabled(indices.length == 1);
+        filterPanel.setEnabled(indices.length == 1);
     }
 
     private void onSignalsCalc() {
@@ -952,5 +768,51 @@ public class Controller {
 
         view.addSignal(message);
         model.addSignalToList(generatedSignal);
+    }
+
+    private void onFilterSignal() {
+        int filterType = model.getFilterType();
+        int windowType = model.getWindowType();
+        double cutoffFrequency = model.getCutoffFrequency();
+        int m = 15;
+
+        ISignal signal = getSelectedSignal();
+        GeneratedSignal filtered;
+        if (filterType == 0 && windowType == 0) {
+            filtered = (GeneratedSignal) Filter.filterSignal(signal, 0, m, cutoffFrequency);
+        } else if (filterType == 1 && windowType == 0) {
+            filtered = (GeneratedSignal) Filter.filterSignal(signal, 1, m, cutoffFrequency);
+        } else if (filterType == 0 && windowType == 1) {
+            filtered = (GeneratedSignal) Filter.filterSignal(signal, 2, m, cutoffFrequency);
+        } else {
+            filtered = (GeneratedSignal) Filter.filterSignal(signal, 3, m, cutoffFrequency);
+        }
+
+        JFreeChart chart = Operations.getChart(signal, filtered);
+
+        XYPlot plot = (XYPlot) chart.getPlot();
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+
+        renderer.setSeriesLinesVisible(0, true);
+        renderer.setSeriesShapesVisible(0, false);
+        renderer.setSeriesStroke(0, new BasicStroke(1));
+        renderer.setSeriesPaint(0, Color.gray);
+        renderer.setSeriesLinesVisible(1, true);
+        renderer.setSeriesShapesVisible(1, false);
+        renderer.setSeriesStroke(1, new BasicStroke(3));
+        renderer.setSeriesPaint(1, new Color(87,86,211));
+
+        plot.setRenderer(renderer);
+
+
+        String ftname = (filterType == 0 ? "dol." : "gór.");
+        String wname = (windowType == 0 ? "prost." : "Hann.");
+
+        int index = view.getSelectedSignalIndex() + 1;
+        String message = MessageFormat.format("Filtrowanie ({2}/{3}) - {0} [{1}]", signal.getSignalName(), index, ftname, wname);
+        Helper.openSimpleWindow(message, chart);
+
+        view.addSignal(message);
+        model.addSignalToList(filtered);
     }
 }
