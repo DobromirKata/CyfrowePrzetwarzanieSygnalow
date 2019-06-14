@@ -41,4 +41,8 @@ public class CorrelationPanel {
         startButton.setEnabled(!isWorking);
         stopButton.setEnabled(isWorking);
     }
+
+    public void setEnabled(boolean state) {
+        startButton.setEnabled(state);
+    }
 }

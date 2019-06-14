@@ -17,7 +17,7 @@
           </grid>
         </constraints>
         <properties>
-          <background color="-6291455"/>
+          <background color="-1"/>
           <foreground color="-1"/>
         </properties>
         <border type="none"/>
@@ -27,9 +27,9 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font name="Roboto" size="16"/>
-              <foreground color="-1"/>
-              <text value="Correlation"/>
+              <font name="Arial" size="16"/>
+              <foreground color="-16777216"/>
+              <text value="Korelacja"/>
             </properties>
           </component>
         </children>
@@ -52,7 +52,8 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Generate"/>
+              <enabled value="false"/>
+              <text value="Rozpocznij korelację"/>
             </properties>
           </component>
         </children>

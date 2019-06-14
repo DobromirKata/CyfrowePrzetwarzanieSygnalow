@@ -146,31 +146,6 @@ public class Controller {
         }
     }
 
-    private void reconstructSignal() throws Exception {
-        int index = model.getReconstructionSignal();
-        ISignal signal = model.getSignal();
-        if (signal == null || signal.getValuesX().size() == 0 || signal.getValuesY().size() == 0) {
-            throw new Exception("Signal not found.");
-        }
-        ISignal reconstructed;
-        double reconstructionFrequency = model.getReconstructionFrequency();
-        switch (model.getReconstructionType()) {
-//            case 1:
-//              ...
-//                break;
-            case 2:
-                reconstructed = Operations.reconstruction(signal, reconstructionFrequency);
-                break;
-            default:
-                reconstructed = Operations.zeroExploration(signal, reconstructionFrequency);
-                break;
-        }
-        model.setReconstructedSignal(reconstructed);
-        model.setOriginalReconstructionSignal(signal.copy());
-        reconstructionPanel.hideNoSignal();
-        updateReconstructionStats();
-    }
-
     private void onFilterTypeChange(ActionEvent event) {
         JComboBox source = (JComboBox) event.getSource();
         model.setFilterType(source.getSelectedIndex());
@@ -214,31 +189,6 @@ public class Controller {
         filterPanel.hideNoSignal();
     }
 
-    private void onPreviewButtonInFilter() {
-        try {
-            filterSignal();
-            ISignal signal = model.getSignal();
-            JFreeChart chart = Operations.getChart(signal, model.getFilteredSignal());
-            filterPanel.displaySignal(chart);
-            filterPanel.hideNoSignal();
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
-    }
-
-
-    private void updateReconstructionStats() {
-        Statistics statistics = new Statistics(model.getOriginalReconstructionSignal(), model.getReconstructedSignal());
-        Object[][] stats = {
-                { "Mean square error", df.format(statistics.MSE()) },
-                { "Signal noise ratio", df.format(statistics.SNR()) },
-                { "Peak signal to noise ratio", df.format(statistics.PSNR()) },
-                { "Maximum difference", df.format(statistics.MD()) },
-                { "Effective number of bits", df.format(statistics.ENOB()) }
-        };
-        reconstructionPanel.updateStats(stats);
-    }
-
     private void onSpeedSliderChange(ChangeEvent event) {
         JSlider source = (JSlider) event.getSource();
         model.setSpeed(source.getValue());
@@ -247,12 +197,9 @@ public class Controller {
     private void onCorrelationStart() {
         try {
             Correlation correlation = model.getCorrelation();
-
-            ISignal signal1 = model.getSignal();
-            ISignal signal2 = model.getSignal();
-            if (signal1 == null || signal2 == null) {
-                throw new Exception("Both signals must be generated.");
-            }
+            int[] indices = view.getSelectedSignalIndices();
+            ISignal signal1 = model.getSignalFromList(indices[0]);
+            ISignal signal2 = model.getSignalFromList(indices[1]);
 
             Position position = model.getPosition();
             if (position == null) {
@@ -265,12 +212,7 @@ public class Controller {
             correlation.distanceSensor();
 
             GeneratedSignal correlated = correlation.getCorrelatedSignal();
-            correlated.setName("Signals correlation");
-
-            view.renderSentSignal(signal1);
-            view.renderReceivedSignal(signal2);
-            view.renderCorrelatedSignal(correlated);
-
+            correlated.setName("Korelacja sygnałów");
 
 //            Thread thread = new Thread(new CorrelationThread());
 //            thread.start();
@@ -283,16 +225,6 @@ public class Controller {
             view.displayError(e.getMessage());
         }
     }
-
-//    private void onCorrelationStop() {
-//        model.setCorrelationWorking(false);
-//        updateCorrelationButtons();
-//    }
-
-//    private void updateCorrelationButtons() {
-//        boolean isWorking = model.isCorrelationWorking();
-//        correlationPanel.updateButtons(isWorking);
-//    }
 
     public class CorrelationThread implements Runnable {
         @Override
@@ -642,6 +574,7 @@ public class Controller {
         quantizationPanel.setButtonEnabled(indices.length == 1);
         reconstructionPanel.setEnabled(indices.length == 1);
         filterPanel.setEnabled(indices.length == 1);
+        correlationPanel.setEnabled(indices.length == 2);
     }
 
     private void onSignalsCalc() {
@@ -809,7 +742,7 @@ public class Controller {
         String wname = (windowType == 0 ? "prost." : "Hann.");
 
         int index = view.getSelectedSignalIndex() + 1;
-        String message = MessageFormat.format("Filtrowanie ({2}/{3}) - {0} [{1}]", signal.getSignalName(), index, ftname, wname);
+        String message = MessageFormat.format("Filtrowanie ({2}/{3}/{4}) - {0} [{1}]", signal.getSignalName(), index, ftname, wname, cutoffFrequency);
         Helper.openSimpleWindow(message, chart);
 
         view.addSignal(message);
