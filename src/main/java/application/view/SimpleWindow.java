@@ -7,11 +7,12 @@ import javax.swing.*;
 
 public class SimpleWindow {
     private JPanel mainPanel;
+    private JPanel chartContainer;
 
     private ChartPanel chartPanel = new ChartPanel(null);
 
     public SimpleWindow(JFreeChart chart) {
-        mainPanel.add(chartPanel);
+        chartContainer.add(chartPanel);
         chartPanel.setChart(chart);
     }
 

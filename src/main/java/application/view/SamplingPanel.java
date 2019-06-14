@@ -65,12 +65,11 @@ public class SamplingPanel {
         noSignal.setVisible(false);
     }
 
-    public void updateButtons(int selectedSignal) {
-        setAsSignal1Button.setEnabled(selectedSignal != 0);
-        setAsSignal2Button.setEnabled(selectedSignal != 1);
-    }
-
     public void setButtonEnabled(boolean state) {
         samplingButton.setEnabled(state);
+    }
+
+    public void addSamplingButtonListener(ActionListener listener) {
+        samplingButton.addActionListener(listener);
     }
 }

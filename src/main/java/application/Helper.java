@@ -10,6 +10,7 @@ import org.jfree.data.statistics.HistogramType;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import signal_processing.ISignal;
+import signal_processing.helpers.Operations;
 import signal_processing.helpers.Statistics;
 
 import javax.swing.*;

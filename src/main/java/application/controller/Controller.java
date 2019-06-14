@@ -5,6 +5,9 @@ import application.model.Model;
 import application.view.*;
 import org.apache.commons.lang3.StringUtils;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.util.ShapeUtils;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.statistics.HistogramType;
 import org.jfree.data.xy.XYSeries;
@@ -17,7 +20,9 @@ import signal_processing.signals.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
@@ -67,6 +72,7 @@ public class Controller {
         view.addSelectedSignalsListener(e -> onSignalsSelect(e));
 
         operationsPanel.addCalcButtonListener(e -> onSignalsCalc());
+        samplingPanel.addSamplingButtonListener(e -> onSampleSignal());
     }
 
     private void initializeSamplingPanel() {
@@ -124,46 +130,6 @@ public class Controller {
     private void onSamplingFrequencyChange(ChangeEvent event) {
         JSpinner source = (JSpinner) event.getSource();
         model.setSamplingFrequency((double)source.getValue());
-    }
-
-    private void onSamplingSignalChange(ActionEvent event) {
-        JComboBox source = (JComboBox) event.getSource();
-        model.setSamplingSignal(source.getSelectedIndex());
-        samplingPanel.updateButtons(source.getSelectedIndex());
-    }
-
-    private void onSetSamplingSignalAsSignal(int index) {
-        try {
-            sampleSignal();
-            ISignal signal = model.getSampledSignal();
-            model.setSignal(signal);
-            onSignalRender();
-            onPreviewButtonInSampling();
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
-    }
-
-    private void onExportButtonInSampling() {
-        try {
-            sampleSignal();
-            ISignal signal = model.getSampledSignal();
-
-            fileChooser = new JFileChooser();
-            int returnValue = fileChooser.showSaveDialog(view.getMainPanel());
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                String selectedFile = fileChooser.getSelectedFile().getPath();
-                try {
-                    FileUtils.saveSignal(signal, selectedFile);
-                    JOptionPane.showMessageDialog(view.getFrame(), "Saved.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                } catch (IOException ex) {
-                    view.displayError("Could not save file: " + selectedFile);
-                }
-            }
-
-        } catch (Exception e) {
-            view.displayError(e.getMessage());
-        }
     }
 
     private void onPreviewButtonInSampling() {
@@ -895,5 +861,29 @@ public class Controller {
 
         int bins = view.getHistogramBins().getValue();
         Helper.openWindow(result, bins);
+    }
+
+    private void onSampleSignal() {
+        ISignal signal = getSelectedSignal();
+        double freq = model.getSamplingFrequency();
+        GeneratedSignal generatedSignal = (GeneratedSignal) Operations.sampling(signal, freq);
+        JFreeChart chart = Operations.getChart(signal, generatedSignal);
+
+        XYPlot plot = (XYPlot) chart.getPlot();
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+
+        renderer.setSeriesLinesVisible(0, true);
+        renderer.setSeriesShapesVisible(0, false);
+        renderer.setSeriesStroke(0, new BasicStroke(1));
+        renderer.setSeriesPaint(0, Color.gray);
+        renderer.setSeriesLinesVisible(1, true);
+        renderer.setSeriesShapesVisible(1, true);
+        renderer.setSeriesShape(1, new Ellipse2D.Double(-3, -3, 6, 6));
+        renderer.setSeriesStroke(1, new BasicStroke(2));
+        renderer.setSeriesPaint(1, new Color(0,109,13));
+
+        plot.setRenderer(renderer);
+
+        Helper.openSimpleWindow(MessageFormat.format("Próbkowanie - {0}", signal.getSignalName()), chart);
     }
 }
