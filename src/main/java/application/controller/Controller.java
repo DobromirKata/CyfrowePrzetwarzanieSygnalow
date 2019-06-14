@@ -16,12 +16,13 @@ import signal_processing.signals.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -63,6 +64,9 @@ public class Controller {
         view.addDisplayButtonListener(e -> onSignalDisplay());
         view.addExportButtonListener(e -> onSignalExport());
         view.addImportButtonListener(e -> onSignalImport());
+        view.addSelectedSignalsListener(e -> onSignalsSelect(e));
+
+        operationsPanel.addCalcButtonListener(e -> onSignalsCalc());
     }
 
     private void initializeSamplingPanel() {
@@ -566,10 +570,6 @@ public class Controller {
             signalPanel.getRenderButton().addActionListener(e -> onSignalRender());
             view.getHistogramBins().addChangeListener(e -> onHistogramChange());
 
-        operationsPanel.getPreviewButton().addActionListener(e -> onPreview());
-        operationsPanel.getExportButton().addActionListener(e -> onExport());
-        operationsPanel.getSetAsSignal1Button().addActionListener(e -> onSetAsSignal());
-
         view.getFile_item_1().addActionListener(e -> onImport());
     }
 
@@ -637,7 +637,8 @@ public class Controller {
         signal.setRendered(true);
 
         if (model.isBothSignalsRendered()) {
-            view.enableOperationsButtons();
+            int[] indices = view.getSelectedSignalIndices();
+            view.enableOperationsButtons(indices.length == 2);
         }
 
         signalPanel.getInfoAverage().setText(df.format(stats.getAverage()));
@@ -704,9 +705,10 @@ public class Controller {
                 updateSignalControls();
 
                 signal.setRendered(true);
-                if (model.isBothSignalsRendered()) {
-                    view.enableOperationsButtons();
-                }
+
+                int[] indices = view.getSelectedSignalIndices();
+                view.enableOperationsButtons(indices.length == 2);
+
 
             } catch (IOException ex) {
                 String message = "Could not import file: " + selectedFile;
@@ -863,5 +865,39 @@ public class Controller {
                 JOptionPane.showMessageDialog(view.getFrame(), message, "Błąd", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    private void onSignalsSelect(ListSelectionEvent event) {
+        JList list = (JList) event.getSource();
+        int[] indices = list.getSelectedIndices();
+        operationsPanel.setButtonEnabled(indices.length == 2);
+    }
+
+    private void onSignalsCalc() {
+        int operation = operationsPanel.getOperation();
+        int[] indices = view.getSelectedSignalIndices();
+        ISignal signal1 = model.getSignalFromList(indices[0]);
+        ISignal signal2 = model.getSignalFromList(indices[1]);
+
+        int index1 = indices[0] + 1;
+        int index2 = indices[1] + 1;
+
+        if (operationsPanel.getOrder() == 1) {
+            ISignal tmp = signal1;
+            signal1 = signal2;
+            signal2 = tmp;
+            int tmpindex = index1;
+            index1 = index2;
+            index2 = tmpindex;
+        }
+
+        model.generateSignal(operation, signal1, signal2);
+
+        GeneratedSignal result = (GeneratedSignal) model.getGeneratedSignal();
+        model.addSignalToList(result);
+        view.addSignal(MessageFormat.format("{0} [{1}] {2} {3} [{4}]", signal1.getSignalName(), index1, Helper.operationAsString(operation), signal2.getSignalName(), index2));
+
+        int bins = view.getHistogramBins().getValue();
+        Helper.openWindow(result, bins);
     }
 }

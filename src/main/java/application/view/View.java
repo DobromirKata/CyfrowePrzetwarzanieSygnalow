@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -89,6 +90,10 @@ public class View {
 
     private void onHistogramBinsChange() {
         histogramBinsValue.setText(Integer.toString(histogramBins.getValue()));
+    }
+
+    public void addSelectedSignalsListener(ListSelectionListener listener) {
+        signals.addListSelectionListener(listener);
     }
 
     private void initializeView() {
@@ -204,8 +209,8 @@ public class View {
         }
     }
 
-    public void enableOperationsButtons() {
-        operationsPanel.enableButtons();
+    public void enableOperationsButtons(boolean state) {
+        operationsPanel.setButtonEnabled(state);
     }
 
     public JFrame getFrame() {
@@ -338,6 +343,10 @@ public class View {
 
     public int getSelectedSignalIndex() {
         return signals.getSelectedIndex();
+    }
+
+    public int[] getSelectedSignalIndices() {
+        return signals.getSelectedIndices();
     }
 
     private void onSignalSelect() {

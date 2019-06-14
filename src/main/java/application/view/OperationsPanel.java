@@ -2,6 +2,7 @@ package application.view;
 
 import org.jfree.chart.ChartPanel;
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class OperationsPanel extends JPanel {
     private JComboBox operationMode;
@@ -9,7 +10,6 @@ public class OperationsPanel extends JPanel {
     private JButton exportButton;
     private JPanel operationsPanel;
     private JPanel signalPanel;
-    private JLabel signalName;
     private JLabel infoAverage;
     private JLabel infoAbsoluteAverage;
     private JLabel infoAveragePower;
@@ -17,11 +17,12 @@ public class OperationsPanel extends JPanel {
     private JLabel infoRootMeanSquare;
     private JButton operationsSignalA;
     private JButton operationsSignalB;
+    private JButton calcSignals;
     private JButton reverseButton;
     private JButton previewButton;
     private JButton setAsSignal2Button;
     private JLabel noSignal;
-    private String[] signals = new String[] { "Signal 1", "Signal 2" };
+    private String[] signals = new String[] { "Sygnał 1", "Sygnał 2" };
     private ChartPanel chartPanel;
 
     public JPanel getOperationsPanel() {
@@ -84,16 +85,12 @@ public class OperationsPanel extends JPanel {
     }
 
     private void assignActions() {
-        reverseButton.addActionListener(e -> reverseSignals());
         operationsSignalA.addActionListener(e -> reverseSignals());
         operationsSignalB.addActionListener(e -> reverseSignals());
     }
 
-    public void enableButtons() {
-        setAsSignal1Button.setEnabled(true);
-        setAsSignal2Button.setEnabled(true);
-        previewButton.setEnabled(true);
-        exportButton.setEnabled(true);
+    public void setButtonEnabled(boolean state) {
+        calcSignals.setEnabled(state);
     }
 
     private void reverseSignals() {
@@ -117,5 +114,7 @@ public class OperationsPanel extends JPanel {
         return (operationsSignalA.getText().equals(signals[0]) ? 0 : 1);
     }
 
-
+    public void addCalcButtonListener(ActionListener listener) {
+        calcSignals.addActionListener(listener);
+    }
 }

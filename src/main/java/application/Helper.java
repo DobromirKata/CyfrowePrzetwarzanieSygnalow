@@ -79,4 +79,9 @@ public class Helper {
 
         return dataset;
     }
+
+    public static String operationAsString(int operation) {
+        String[] operations = new String[] { "+", "-", "*", "/" };
+        return operations[operation];
+    }
 }
