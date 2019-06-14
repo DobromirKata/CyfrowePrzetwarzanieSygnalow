@@ -564,7 +564,7 @@ public class Controller {
             signalPanel.getJumpPoint().addChangeListener(e -> updateJumpPoint());
             signalPanel.getSampleJump().addChangeListener(e -> updateSampleJump());
             signalPanel.getRenderButton().addActionListener(e -> onSignalRender());
-            signalPanel.getHistogramBins().addChangeListener(e -> onHistogramChange());
+            view.getHistogramBins().addChangeListener(e -> onHistogramChange());
 
         operationsPanel.getPreviewButton().addActionListener(e -> onPreview());
         operationsPanel.getExportButton().addActionListener(e -> onExport());
@@ -736,7 +736,6 @@ public class Controller {
         }
         XYSeriesCollection dataset = new XYSeriesCollection(series);
 //        view.renderSignal(index, signal, dataset);
-        signalPanel.getHistogramBins().setEnabled(true);
     }
 
     private void renderHistogram() {
@@ -747,7 +746,7 @@ public class Controller {
         for (int i = 0; i < values.length; i++) {
             values[i] = signal.getValuesY().get(i);
         }
-        int bins = signalPanel.getHistogramBins().getValue();
+        int bins = view.getHistogramBins().getValue();
         dataset.addSeries("H1", values, bins, Collections.min(signal.getValuesY()), Collections.max(signal.getValuesY()));
 
 //        TODO: Correct render histogram call in view
@@ -815,7 +814,7 @@ public class Controller {
     private void onRender() {
         ISignal signal = model.getSignal();
         view.addSignal(signal.getSignalName());
-        int bins = signalPanel.getHistogramBins().getValue();
+        int bins = view.getHistogramBins().getValue();
         Helper.openWindow(signal, bins);
         model.addSignalToList(signal);
         view.setSelection(model.getSignalsCount() - 1);
@@ -828,7 +827,7 @@ public class Controller {
 
     private void onSignalDisplay() {
         ISignal signal = getSelectedSignal();
-        int bins = signalPanel.getHistogramBins().getValue();
+        int bins = view.getHistogramBins().getValue();
         Helper.openWindow(signal, bins);
     }
 

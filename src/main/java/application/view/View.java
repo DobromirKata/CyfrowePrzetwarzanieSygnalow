@@ -33,6 +33,8 @@ public class View {
     private JButton displayButton;
     private JButton exportButton;
     private JButton importButton;
+    private JSlider histogramBins;
+    private JLabel histogramBinsValue;
     private JPanel signalChart2;
     private JLabel noSignal1;
     private JLabel noSignal2;
@@ -82,6 +84,11 @@ public class View {
 //        correlationPanel.setVisible(false);
 
         initializeView();
+        histogramBins.addChangeListener(e -> onHistogramBinsChange());
+    }
+
+    private void onHistogramBinsChange() {
+        histogramBinsValue.setText(Integer.toString(histogramBins.getValue()));
     }
 
     private void initializeView() {
@@ -346,5 +353,9 @@ public class View {
 
     public void setSelection(int index) {
         signals.setSelectedIndex(index);
+    }
+
+    public JSlider getHistogramBins() {
+        return histogramBins;
     }
 }
